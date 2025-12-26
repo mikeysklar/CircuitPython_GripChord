@@ -1,6 +1,7 @@
 import time
 import board
 import digitalio
+from adafruit_hid.keycode import Keycode
 
 from gripchord import GripChord
 import chords_config   # required by your constructor, even if unused yet
@@ -28,10 +29,17 @@ gc = GripChord(pins, chords_config)
 
 print("GripChord ready")
 
+# ─── magic key decoder ─────────────────────────────────────────────
+def key_name(k):
+    for name, val in Keycode.__dict__.items():
+        if val == k:
+            return name
+    return k
 
 # ─── Main loop ─────────────────────────────────────────────────────
 while True:
     events = gc.update()
     for ev in events:
-        print(ev)
+        if ev["type"] == "key":
+            print(ev["combo"], "→", key_name(ev["value"]))
     time.sleep(0.01)
