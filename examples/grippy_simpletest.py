@@ -32,6 +32,6 @@ print("GripChord ready")
 # ─── Main loop ─────────────────────────────────────────────────────
 while True:
     events = gc.update()
-    if events:
-        print(events)
+    for ev in events:
+        print(ev)
     time.sleep(0.01)
